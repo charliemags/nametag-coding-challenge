@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  nametag-go-server:
+    build:
+      context: ./server   # Path to your server Dockerfile
+      dockerfile: Dockerfile
+    container_name: nametag-go-server
+    networks:
+      - web
+    labels:
+      - "traefik.enable=true"
+      # Replace example.com with your actual domain or "localhost" for local dev
+      - "traefik.http.routers.go-server.rule=Host(`nametag.magnarelli.net`)"
+      - "traefik.http.routers.go-server.entrypoints=web"
+      # Internal port of the Go server
+      - "traefik.http.services.go-server.loadbalancer.server.port=8080"
+
+networks:
+  web:
+    external: false
