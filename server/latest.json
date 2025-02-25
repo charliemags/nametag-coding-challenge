@@ -1,7 +1,7 @@
 {
     "version": "1.1.0",
-    "url_windows": "http://localhost:8080/myapp-windows.exe",
-    "url_darwin":  "http://localhost:8080/myapp-darwin",
-    "url_linux":   "http://localhost:8080/myapp-linux"
+    "url_windows": "http://nametag.magnarelli.net:8080/myapp-windows.exe",
+    "url_darwin":  "http://nametag.magnarelli.net:8080/myapp-darwin",
+    "url_linux":   "http://nametag.magnarelli.net:8080/myapp-linux"
   }
   
