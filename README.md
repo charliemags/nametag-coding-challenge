@@ -3,7 +3,7 @@
 ### This repository contains a proof-of-concept self-updating Go program that works (in principle) on Windows, macOS, and Linux.
 **A minimal server is provided, which:**
 
-- Hosts metadata describing the latest version (e.g. latest.json).
+- Hosts metadata describing the latest version (e.g. ```latest.json```).
 - Hosts the compiled binaries for each supported operating system.
 
 **A client (the actual self-updating application) checks the server on startup to see if a newer version is available. If one is found, it:**
@@ -28,30 +28,30 @@
 
 **How do we determine the version of the client?**
 
-**Assumption:** _We store the current version in a Go constant (e.g., const CurrentVersion = "1.0.0"). In production, you might build the version into the binary using build flags or embed._
+**Assumption:** _We store the current version in a Go constant (e.g., ```const CurrentVersion = "1.0.0"```). In production, you might build the version into the binary using build flags or embed._
 
 **Where and how do we host the server?**
 
-**Assumption:** _We have a simple HTTP file server (server.go) listening on port 8080. It serves static files (including latest.json and the various binaries)._
-
-**Which platforms are supported?**
-
-**Assumption:** _Windows, macOS, and Linux (all 64-bit). You can extend or adapt for more OS/architecture combinations._
+**Assumption:** The project is running via server ```nametag.magnarelli.net```, but the code can be easily changed to run the server & client via ```localhost```.
 
 **How does the client know which binary to download?**
 
-**Assumption:** _The client uses runtime.GOOS to select the correct download URL from a latest.json file that contains separate URLs for Windows, Darwin (macOS), and Linux._
+**Assumption:** The client uses ```runtime.GOOS``` to select the correct download URL from a latest.json file that contains separate URLs for Windows, Darwin (macOS), and Linux.
+
+**Do we pre-build & store the binary on the server, or build the binary locally?**
+
+**Assumption:** As if this was a **production application**, it's best to keep the source code secure - thus why I would reccomend downloading the binary. But in the case for this exercise, the source code is already exposed.
 
 **Is security important for these updates?**
 
-**Assumption:** _We’re not yet implementing HTTPS, code signing, checksums, or cryptographic signatures in this sample. In production, these are essential._
+**Assumption:** We’re not yet implementing HTTPS, code signing, checksums, or cryptographic signatures in this sample. In production, these are essential.
 
 **How do we handle the inability to overwrite running executables (particularly on Windows)?**
 
-**Assumption:** _We do a small “updater” dance:_
-- _Download the new binary to a temporary file._
-- _Spawn a child process that deletes the old binary _(once the old process exits)_ and renames/copies the new one._
-- _The child process restarts the updated application._
+**Assumption:** We do a small “updater” dance:
+- Download the new binary to a temporary file.
+- Spawn a child process that deletes the old binary (once the old process exits) and renames/copies the new one.
+- The child process restarts the updated application.
 
 ## Repository Structure
 
@@ -140,7 +140,7 @@ Downloaded new version to /tmp/myapp-update-XYZ
 Updater started. Exiting this process to allow the updater to replace the binary.
 ```
 
-The main process exits. Then the short-lived “updater” runs, replaces myapp-linux with the new binary, and starts the updated binary. You should see something like:
+The main process exits. Then the short-lived “updater” runs, replaces ```myapp-linux``` with the new binary, and starts the updated binary. You should see something like:
 
 ```Hello! I am version 1.1.0
 Continuing normal operation...
@@ -154,35 +154,34 @@ chmod +x ./myapp-darwin
 ./myapp-darwin
 ```
 
-_(Similar output to the Linux example.)_
+(Similar output to the Linux example.)
 
 **On Windows:**
 
-    .\myapp-windows.exe
+```.\myapp-windows.exe```
 
-    The logic is essentially the same, though Windows has stricter file-locking behavior. The code works around that with the child “updater” process.
+The logic is essentially the same, though Windows has stricter file-locking behavior. The code works around that with the child “updater” process.
 
 ## How the Self-Update Works
 
-### Check for Update
+#### 1. Check for Update
 
-The client reads latest.json from the server. If the version differs from its own CurrentVersion, it concludes an update is needed.
+The client reads ```latest.json``` from the server. If the version differs from its own CurrentVersion, it concludes an update is needed.
 
-### Download New Binary
+#### 2. Download New Binary
 
-The client picks the correct platform-specific URL (*e.g., url_linux*) and downloads to a temporary file.
+The client picks the correct platform-specific URL (e.g., ```url_linux```) and downloads to a temporary file.
 
-### Spawn the Updater
-The client spawns a child process (*itself, but with an ```-update-install``` flag*) to handle the actual file replacement.
-        The main process then exits, freeing its own file lock (important on Windows).
+#### 3. Spawn the Updater
+The client spawns a child process (*itself, but with an ```-update-install``` flag*) to handle the actual file replacement.The main process then exits, freeing its own file lock (important on Windows).
 
-### Replace the Binary (Child Process)
+#### 4. Replace the Binary (Child Process)
 The child process waits briefly, deletes/renames the old binary, and puts the new one in place.
         It spawns the new version of the application.
         It exits.
 
-### Relaunch
-The new version starts up, presumably with an updated CurrentVersion.
+#### 5. Relaunch
+The new version starts up, presumably with an updated ```CurrentVersion```.
 
 ## Caveats & Next Steps
 
@@ -200,4 +199,4 @@ You might keep a backup of the old binary in case the new version fails to launc
 On Unix-like systems, you can often do an ```os.Rename()``` on a running binary. However, on Windows, this is locked. The child-process approach shown here is a cross-platform compromise.
 
 ### Additional Platforms
-Extend as needed (*e.g., ARM builds, 32-bit, etc.*).
+Extend as needed (e.g., ARM builds, 32-bit, etc.).
