@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: nametag-go-server
     networks:
-      - traefik-network
+      - traefik_network
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.go-server.rule=Host(`nametag.magnarelli.net`)"
