@@ -17,5 +17,5 @@ services:
       - "traefik.http.services.go-server.loadbalancer.server.port=8080"
 
 networks:
-  traefik-network:
+  traefik_network:
     external: true
