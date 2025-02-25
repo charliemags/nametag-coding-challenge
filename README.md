@@ -63,6 +63,7 @@
 │   └── server.go                    # Minimal server that hosts files
 └── client
     ├── main.go                      # Self-updating client code
+└── dist
     ├── myapp-windows.exe            # Windows build of the client
     ├── myapp-darwin                 # macOS build of the client 
     └── myapp-linux                  # Linux build of the client
@@ -176,9 +177,7 @@ The client picks the correct platform-specific URL (e.g., ```url_linux```) and d
 The client spawns a child process (*itself, but with an ```-update-install``` flag*) to handle the actual file replacement.The main process then exits, freeing its own file lock (important on Windows).
 
 #### 4. Replace the Binary (Child Process)
-The child process waits briefly, deletes/renames the old binary, and puts the new one in place.
-        It spawns the new version of the application.
-        It exits.
+The child process waits briefly, deletes/renames the old binary, and puts the new one in place. It spawns the new version of the application. It exits.
 
 #### 5. Relaunch
 The new version starts up, presumably with an updated ```CurrentVersion```.
