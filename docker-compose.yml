@@ -10,11 +10,11 @@ services:
       - traefik_network
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.go-server.rule=Host(`nametag.magnarelli.net`)"
-      - "traefik.http.routers.api.tls=true"
-      - "traefik.http.routers.go-server.entrypoints=web"
+      - "traefik.http.routers.go-server.rule=Host(`magicid.me`)"
+      - "traefik.http.routers.go-server.entrypoints=websecure"
       - "traefik.http.routers.go-server.tls.certresolver=myresolver"
-      - "traefik.http.services.go-server.loadbalancer.server.port=8081"
+      - "traefik.http.routers.api.tls=true"
+      - "traefik.http.services.go-server.loadbalancer.server.port=8201"
 
 networks:
   traefik_network:
