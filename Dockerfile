@@ -23,9 +23,9 @@ COPY --from=builder /app/latest.json /app/
 
 # Copy the PRE-BUILT client binaries from your local repo
 # (They are *not* built by Docker, just copied in.)
-COPY ../client/myapp-darwin      /app/
-COPY ../client/myapp-linux       /app/
-COPY ../client/myapp-windows.exe /app/
+COPY /client/myapp-darwin      /app/
+COPY /client/myapp-linux       /app/
+COPY /client/myapp-windows.exe /app/
 
 EXPOSE 8201
 
