@@ -4,11 +4,11 @@ FROM golang:1.20-alpine AS builder
 WORKDIR /app
 
 # Copy server source
-COPY server.go .
-COPY latest.json .
+COPY /server/server.go .
+COPY /server/latest.json .
 
 # Build the 'server' binary
-RUN go build -o server server.go
+RUN go build -o server /server/server.go
 
 # ---------------------------------------------------------
 # Final Image
