@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-    port := flag.Int("port", 8080, "port to serve on")
+    port := flag.Int("port", 8081, "port to serve on")
     flag.Parse()
 
     // current working directory
@@ -23,7 +23,7 @@ func main() {
     http.Handle("/", http.FileServer(http.Dir(cwd)))
 
     addr := fmt.Sprintf(":%d", *port)
-    log.Printf("Serving on http://localhost%s ...", addr)
+    log.Printf("Serving on https://localhost%s ...", addr)
     if err := http.ListenAndServe(addr, nil); err != nil {
         log.Fatal(err)
     }

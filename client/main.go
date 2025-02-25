@@ -17,7 +17,7 @@ import (
 )
 
 // CurrentVersion is the version of this binary.
-// In reality, you'd embed this in a more sophisticated way (ldflags, build script, etc.)
+// In reality, i'd embed this in a more sophisticated way (ldflags, build script, etc.)
 const CurrentVersion = "1.0.0"
 
 // We define a struct to match our latest.json
