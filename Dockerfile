@@ -8,7 +8,7 @@ COPY /server/server.go .
 COPY /server/latest.json .
 
 # Build the 'server' binary
-RUN go build -o server /server/server.go
+RUN go build -o server server.go
 
 # ---------------------------------------------------------
 # Final Image
