@@ -19,5 +19,5 @@ COPY --from=builder /app/server /app/
 # Copy other required files (like latest.json, or any binaries you host)
 COPY --from=builder /app/latest.json /app/
 
-EXPOSE 8080
+EXPOSE 8201
 CMD ["./server", "-port=8201"]
