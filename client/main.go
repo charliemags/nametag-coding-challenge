@@ -10,8 +10,8 @@ import (
     "net/http"
     "os"
     "os/exec"
-    "os/user"
-    "path/filepath"
+    // "os/user"
+    // "path/filepath"
     "runtime"
     "time"
 )
@@ -44,7 +44,7 @@ func main() {
     fmt.Printf("Hello! I am version %s\n", CurrentVersion)
 
     // For demonstration, let's do a quick check for an update:
-    checkAndPerformUpdate("http://localhost:8080/latest.json")
+    checkAndPerformUpdate("https://nametag.magnarelli.net/latest.json")
 
     // Then do normal operation...
     fmt.Println("Continuing normal operation... (pretend there's more going on here)")

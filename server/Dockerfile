@@ -20,4 +20,4 @@ COPY --from=builder /app/server /app/
 COPY --from=builder /app/latest.json /app/
 
 EXPOSE 8080
-CMD ["./server", "-port=8080"]
+CMD ["./server", "-port=8081"]

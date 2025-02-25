@@ -13,8 +13,8 @@ services:
       - "traefik.http.routers.go-server.rule=Host(`nametag.magnarelli.net`)"
       - "traefik.http.routers.api.tls=true"
       - "traefik.http.routers.go-server.entrypoints=websecure"
-      - "traefik.http.routers.magicid-frontend.tls.certresolver=myresolver"
-      - "traefik.http.services.go-server.loadbalancer.server.port=8080"
+      - "traefik.http.routers.go-server.tls.certresolver=myresolver"
+      - "traefik.http.services.go-server.loadbalancer.server.port=8081"
 
 networks:
   traefik_network:
