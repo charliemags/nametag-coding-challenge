@@ -74,7 +74,9 @@
 - Networking access to run the server and have the client retrieve updates.
 
 ## Building
-1. **Build the Server** ```go build -o server server.go```
+
+
+**1. Build the Server** ```go build -o server server.go```
 
 You will get a binary called server (*or server.exe on Windows*).
 

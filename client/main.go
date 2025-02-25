@@ -18,7 +18,7 @@ import (
 
 // CurrentVersion is the version of this binary.
 // In reality, i'd embed this in a more sophisticated way (ldflags, build script, etc.)
-const CurrentVersion = "1.0.0"
+const CurrentVersion = "1.0.1"
 
 // We define a struct to match our latest.json
 type LatestInfo struct {
