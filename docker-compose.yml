@@ -7,11 +7,13 @@ services:
       dockerfile: Dockerfile
     container_name: nametag-go-server
     networks:
-      - web
+      - traefik-network
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.go-server.rule=Host(`nametag.magnarelli.net`)"
-      - "traefik.http.routers.go-server.entrypoints=web"
+      - "traefik.http.routers.api.tls=true"
+      - "traefik.http.routers.go-server.entrypoints=websecure"
+      - "traefik.http.routers.magicid-frontend.tls.certresolver=myresolver"
       - "traefik.http.services.go-server.loadbalancer.server.port=8080"
 
 networks:
