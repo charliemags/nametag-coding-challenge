@@ -10,8 +10,6 @@ import (
     "net/http"
     "os"
     "os/exec"
-    // "os/user"
-    // "path/filepath"
     "runtime"
     "time"
 )
@@ -44,6 +42,7 @@ func main() {
     fmt.Printf("Hello! I am version %s\n", CurrentVersion)
 
     // For demonstration, let's do a quick check for an update:
+    // If you want to run the server and client locally, change the domain to localhost
     checkAndPerformUpdate("https://nametag.magnarelli.net/latest.json")
 
     // Then do normal operation...

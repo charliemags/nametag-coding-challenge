@@ -14,6 +14,7 @@
 
 ## Table of Contents
 
+- Prompt
 - Questions & Assumptions
 - Repository Structure
  - Prerequisites
@@ -23,6 +24,14 @@
 - Running the Client
 - How the Self-Update Works
 - Caveats & Next Steps
+
+## Prompt
+
+_Write a program that updates itself. Imagine that you have a program you’ve deployed to clients and you will periodically produce new versions. When a new version is produced, we want the deployed programs to be seamlessly replaced by a new version._
+
+_Please write what you consider to be production quality code, whatever that means to you. You may choose any common programming language you like (Go, Rust, or C++ would be good choices). Your program should reasonably be expected to work across common desktop operating systems (Windows, Mac, Linux). If your scheme requires non-trivial server components, please write those as well._
+
+_As in real life, answers to clarifying questions may be elusive. If you have a question, write it down, and guess what you think our answer might be, and proceed as if that were the answer._
 
 ## Questions & Assumptions
 
@@ -36,7 +45,7 @@
 
 **How does the client know which binary to download?**
 
-**Assumption:** The client uses ```runtime.GOOS``` to select the correct download URL from a latest.json file that contains separate URLs for Windows, Darwin (macOS), and Linux.
+**Assumption:** The client uses ```runtime.GOOS``` to select the correct download URL from a ```latest.json``` file that contains separate URLs for Windows, Darwin (macOS), and Linux.
 
 **Do we pre-build & store the binary on the server, or build the binary locally?**
 
@@ -79,13 +88,13 @@
 
 **1. Build the Server** ```go build -o server server.go```
 
-You will get a binary called server (*or server.exe on Windows*).
+You will get a binary called server (or server.exe on Windows).
 
 **2. Build the Self-Updating Client**
 
 **By default, if you just run:**  ```go build -o myapp main.go```
 
-…it will build for your current operating system. However, in order to produce different binaries for distribution (*Windows, macOS, Linux*), use **cross-compilation**:
+…it will build for your current operating system. However, in order to produce different binaries for distribution (Windows, macOS, Linux), use **cross-compilation**:
 
 ## Cross-Compilation
 
@@ -101,16 +110,10 @@ You will get a binary called server (*or server.exe on Windows*).
 _*Adjust amd64 to arm64 or others as needed._
 ## Running the Server
 
-### Prepare the Files
-**Make sure the following files are in the same folder (so the server can serve them):**
-        
-- ```latest.json```
-- ```myapp-windows.exe```
-- ```myapp-darwin```
-- ```myapp-linux```
-
 ### Edit latest.json
-**Ensure it looks something like this:**
+If running via ```localhost```, ensure it looks something like this:
+
+
 ```
 {
   "version": "1.1.0",
@@ -119,7 +122,7 @@ _*Adjust amd64 to arm64 or others as needed._
   "url_linux":   "http://localhost:8080/myapp-linux"
 }
 ```
-_Change version to a newer version than the client’s CurrentVersion if you want the client to update._
+_Change version to a newer version than the client’s ```CurrentVersion``` if you want the client to update._
 
 ### Run the Server
 ```
@@ -129,7 +132,7 @@ The server will start on http://localhost:8080.
 
 ## Running the Client
 
-Run Locally (for example, on Linux):
+Run locally (for example, on Linux):
 ```
 ./myapp-linux
 ```
@@ -185,14 +188,13 @@ The new version starts up, presumably with an updated ```CurrentVersion```.
 ## Caveats & Next Steps
 
 ### Security
-This sample uses plain HTTP. In production, use HTTPS.
-        Validate signatures or checksums on downloaded binaries to ensure integrity and authenticity.
+This sample running via localhost uses plain HTTP. In production, use HTTPS. We should also Validate signatures or checksums on downloaded binaries to ensure integrity and authenticity.
 ### Error Handling
 The code is simplified. In a production system, you’d want robust error handling for partial downloads, network timeouts, etc.
 ### Version Comparison
 Our example just checks ```info.Version == CurrentVersion```. Real setups often use semantic version checks.
 ### Rollback
-You might keep a backup of the old binary in case the new version fails to launch.
+Might keep a backup of the old binary in case the new version fails to launch.
 
 ### Atomicity on Unix
 On Unix-like systems, you can often do an ```os.Rename()``` on a running binary. However, on Windows, this is locked. The child-process approach shown here is a cross-platform compromise.
